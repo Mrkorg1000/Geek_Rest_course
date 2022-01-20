@@ -1,7 +1,7 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
 import BookList from './components/Book.js'
-import {HashRouter, Routes, Route} from 'react-router-dom'
+import {HashRouter, Route} from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -28,11 +28,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <HashRouter>
-            <Routes>
-
                 <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
                 <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
-            </Routes>
         </HashRouter>
       </div>
     )
