@@ -1,7 +1,17 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
 import BookList from './components/Book.js'
-import {HashRouter, Routes, Route} from 'react-router-dom'
+import AuthorBookList from './components/AuthorBook.js'
+import {BrowserRouter, HashRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
+
+const NotFound404 = ({ location }) => {
+  return (
+    <div>
+        <h1>Страница по адресу '{location.pathname}' не найдена</h1>
+    </div>
+  )
+}
+
 
 class App extends React.Component {
 
@@ -21,22 +31,34 @@ class App extends React.Component {
     }
   }
 
-
-
-
   render() {
     return (
-      <div className="App">
-        <HashRouter>
-            <Routes>
-
-                <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
-                <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
-            </Routes>
-        </HashRouter>
-      </div>
+        <div className="App">
+          <BrowserRouter>
+          <nav>
+            <ul>
+              <li>
+                <Link to='/'>Authors</Link>
+              </li>
+              <li>
+                <Link to='/books'>Books</Link>
+              </li>
+            </ul>
+          </nav>
+            <Switch>
+              <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
+              <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+              <Route path="/author/:id">
+                <AuthorBookList items={this.state.books} />
+              </Route>
+              <Redirect from='/authors' to='/' />
+              <Route component={NotFound404} />
+            </Switch>
+          </BrowserRouter>
+        </div>
     )
   }
 }
 
 export default App;
+
